@@ -24,12 +24,12 @@
   /* --color-secondary: #eae8db; */
   /* --color-contrast: #c2d2fe; */
   /* --color-support: #616e90; */
-  --color-primary: #ea580c;
+  --color-primary: #fdba74;
   --color-secondary: #d97706;
-  --color-contrast: #0284c7;
+  --color-contrast: #ea580c;
   --color-support: #fdba74;
   --color-dark: #ea580c;
-  --color-light: #fdba74;
+  --color-light: #0284c7;
 
   --font-*: initial;
   --font-primary: var(--font-primary);
