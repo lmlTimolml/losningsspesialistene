@@ -20,12 +20,16 @@
   --color-khaki: #686c60;
   --color-black: #000;
   --color-white: #fff;
-  --color-primary: #ab9b7e;
-  --color-secondary: #eae8db;
-  --color-support: #616e90;
-  --color-contrast: #c2d2fe;
-  --color-dark: #ab9b7e;
-  --color-light: #eae8db;
+  /* --color-primary: #ab9b7e; */
+  /* --color-secondary: #eae8db; */
+  /* --color-contrast: #c2d2fe; */
+  /* --color-support: #616e90; */
+  --color-primary: #ea580c;
+  --color-secondary: #d97706;
+  --color-contrast: #0284c7;
+  --color-support: #fdba74;
+  --color-dark: #ea580c;
+  --color-light: #fdba74;
 
   --font-*: initial;
   --font-primary: var(--font-primary);
