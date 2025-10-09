@@ -5,6 +5,7 @@ import sanity from '@sanity/astro';
 import react from '@astrojs/react';
 
 import { loadEnv } from 'vite';
+import node from '@astrojs/node';
 const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
   // @ts-ignore
   process.env.NODE_ENV,
@@ -17,6 +18,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+
   integrations: [
     sanity({
       projectId: PUBLIC_SANITY_PROJECT_ID,
@@ -30,4 +32,8 @@ export default defineConfig({
     }),
     react(),
   ],
+
+  adapter: node({
+    mode: 'standalone',
+  }),
 });

@@ -20,12 +20,12 @@
   --color-khaki: #686c60;
   --color-black: #000;
   --color-white: #fff;
-  --color-primary: #e3dcbf;
-  --color-secondary: #431613;
-  --color-support: #686c60;
-  --color-contrast: #dc4747;
-  --color-dark: #431613;
-  --color-light: #e5dcbc;
+  --color-primary: #ab9b7e;
+  --color-secondary: #eae8db;
+  --color-support: #616e90;
+  --color-contrast: #c2d2fe;
+  --color-dark: #ab9b7e;
+  --color-light: #eae8db;
 
   --font-*: initial;
   --font-primary: var(--font-primary);

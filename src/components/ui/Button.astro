@@ -1,11 +1,12 @@
 ---
+import { cleanClass } from "../../utils/cleanClass";
 const { label, href, variant = 'btn-primary', newTab = false } = Astro.props;
 
 ---
 
 <a
   href={href}
-  class={`btn ${variant}`}
+  class={`btn ${cleanClass(variant)}`}
   target={newTab ? '_blank' : '_self'}
   rel={newTab ? 'noopener noreferrer' : undefined}
 >

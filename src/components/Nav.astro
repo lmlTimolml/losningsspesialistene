@@ -1,12 +1,13 @@
 ---
 import { urlForImage } from '../sanity/lib/url-for-image';
+import { cleanClass } from '../utils/cleanClass';
 import type { NavType } from '../types/sanityTypes';
 import Navlink from './ui/Navlink.astro';
 
 const nav = Astro.props as NavType;
 
-const navBg = nav?.navColor;
-const linkCol = nav?.linkColor;
+const navBg = cleanClass(nav?.navColor);
+const linkCol = cleanClass(nav?.linkColor);
 
 /* const customClass = [
   `${cleanClass(navBg)}`,
