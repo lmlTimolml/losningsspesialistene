@@ -17,6 +17,14 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      host: '0.0.0.0',
+      port: Number(process.env.PORT) || 3000,
+    },
+    preview: {
+      host: '0.0.0.0',
+      port: Number(process.env.PORT) || 3000,
+    },
   },
 
   integrations: [
