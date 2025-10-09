@@ -1,0 +1,37 @@
+---
+import Button from './Button.astro';
+
+const { btn } = Astro.props;
+
+let href = '#';
+
+// External link
+if (btn.link?.external) {
+  href = btn.link.external + (btn.section ? `#${btn.section}` : '');
+}
+// Internal link
+else if (btn.link?.internal?.slug?.current) {
+  const slug = btn.link.internal.slug.current;
+  const type = btn.link.internal._type;
+
+  if (type === 'page') {
+    href = `/pages/${slug}${btn.section ? `#${btn.section}` : ''}`;
+  } else if (type === 'case') {
+    href = `/cases/${slug}${btn.section ? `#${btn.section}` : ''}`;
+  } else {
+    // fallback to top-level
+    href = `/${slug}${btn.section ? `#${btn.section}` : ''}`;
+  }
+}
+// Anchor only
+else if (btn.section) {
+  href = `#${btn.section}`;
+}
+---
+
+<Button
+  label={btn.label}
+  variant={btn.variant}
+  href={href}
+  newTab={btn.newTab}
+/>

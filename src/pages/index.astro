@@ -1,0 +1,48 @@
+---
+import { loadQuery } from '../sanity/lib/load-query';
+import { footerFragment, blocksFragment, navfragment, pageMeta, globalSeo } from '../sanity/lib/queries/fragments';
+import Layout from '../layouts/Layout.astro';
+import type { PageType } from '../types/sanityTypes';
+
+import { components } from '../sanity/lib/components';
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+
+const { data: homepage } = await loadQuery<PageType>({
+  query: `*[_type == "homepage"][0]{
+    title,
+    pageColor,
+    ${pageMeta},
+    ${globalSeo},
+    ${navfragment},
+    ${footerFragment},
+    ${blocksFragment}
+  }`
+});
+
+const blocks = homepage?.blocks ?? [];
+const footer = homepage?.footer;
+const nav = homepage?.navigation;
+const page = homepage;
+const settings = page.globalSeo;
+
+export const prerender = false;
+
+---
+
+<Layout page={page} settings={settings}>
+  { nav ? (<Nav {...nav} />) : null }
+  <main class={`grid-component-wrapper mt-28`}>
+
+  {blocks?.map((block, index) => {
+  const Component = components[block._type];
+  if (!Component) {
+    console.warn(`⚠️ No homepage component found for block type: ${block._type}`);
+    return null;
+  }
+  return <Component {...block} key={index} />;
+})}
+
+</main>
+{ footer ? (<Footer {...footer} />) : null }
+</Layout>

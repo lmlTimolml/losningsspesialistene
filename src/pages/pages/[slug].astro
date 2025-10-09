@@ -1,0 +1,62 @@
+---
+import { loadQuery } from "../../sanity/lib/load-query";
+import Layout from "../../layouts/Layout.astro";
+import { blocksFragment, footerFragment, navfragment, pageMeta, globalSeo } from '../../sanity/lib/queries/fragments';
+import type { PageType } from '../../types/sanityTypes';
+import { components } from '../../sanity/lib/components';
+import Footer from '../../components/Footer.astro';
+import Nav from '../../components/Nav.astro';
+
+export async function getStaticPaths() {
+  const { data: pages } = await loadQuery<PageType[]>({
+    query: `*[_type == "page"]`,
+  });
+
+  return pages.map(({ slug }) => {
+    return {
+      params: {
+        slug: slug.current,
+      },
+    };
+  });
+}
+
+const { params } = Astro;
+
+const { data: page } = await loadQuery<PageType>({
+  query: `*[_type == "page" && slug.current == $slug][0]{
+    title,
+    pageColor,
+    ${pageMeta},
+    ${globalSeo},
+    ${navfragment},
+    ${footerFragment},
+    ${blocksFragment}
+  }
+`,
+  params,
+});
+
+const blocks = page?.blocks ?? [];
+const footer = page?.footer;
+const nav = page?.navigation;
+const settings = page.globalSeo;
+
+export const prerender = false
+
+---
+
+<Layout page={page} settings={settings}>
+  { nav ? (<Nav {...nav} />) : null }
+  <main class={`grid-component-wrapper mt-28`}>
+  {blocks?.map((block, index) => {
+  const Component = components[block._type];
+  if (!Component) {
+    console.warn(`⚠️ No component found for module type: ${block._type}`);
+    return null;
+  }
+  return <Component {...block} key={index} />;
+})}
+</main>
+{ footer ? (<Footer {...footer} />) : null }
+</Layout>

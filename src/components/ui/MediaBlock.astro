@@ -1,0 +1,63 @@
+---
+import SanityImage from './SanityImage.astro';
+import { extractYouTubeId } from '../../utils/youtube';
+
+const {
+  mediaType,
+  image,
+  video,
+  alt = '',
+  youtubeUrl,
+  mapEmbedUrl,
+} = Astro.props;
+
+const url = video?.asset?.url;
+const mime = video?.asset?.mimeType;
+const youtubeId = extractYouTubeId(youtubeUrl);
+
+---
+
+{mediaType === 'image' ? (
+  <SanityImage
+    image={image}
+    alt={alt}
+    class={`object-cover aspect-auto max-w-full max-h-full`}
+  />
+) : null }
+
+{mediaType === 'video' ? (
+  <video
+    controls
+    playsinline
+    class={`object-cover w-full h-full`}
+  >
+    <source src={url} type={mime || 'video/mp4'} />
+    Your browser does not support the video tag.
+  </video>
+) : null }
+
+{mediaType === 'youtube' ? (
+  <iframe
+    width="960"
+    height="540"
+    src={`https://www.youtube.com/embed/${youtubeId}?rel=0`}
+    title="YouTube video"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    class={`aspect-video w-full h-full`}
+  />
+) : null}
+
+{mediaType === 'map' ? (
+  <iframe
+    src={mapEmbedUrl}
+    title="Google map"
+    width="100%"
+    height="540"
+    style="border:0;"
+    allowfullscreen
+    loading="lazy"
+    class={`aspect-square w-full h-full`}
+    referrerpolicy="no-referrer-when-downgrade"
+  />
+) : null}

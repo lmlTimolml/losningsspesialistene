@@ -1,0 +1,43 @@
+---
+import type { LayoutProps } from '../../types/sanityTypes';
+
+
+const {page, settings} = Astro.props as LayoutProps ;
+
+// Fallbacks
+const metaTitle = page?.pageMeta?.title || settings?.defaultTitle || page?.title || "Creative Mill";
+const metaKeywords = page?.pageMeta?.keywords || settings?.defaultKeywords;
+const metaDescription = page?.pageMeta?.description || settings?.defaultDescription;
+const ogImage = page?.pageMeta?.ogImage?.asset?.url || settings?.ogImage?.asset?.url;
+const canonical = page?.pageMeta?.canonicalUrl 
+  || (page?.slug ? `https://DOMAINNAME.DOMAIN/${page.slug}` : "https://DOMAINNAME.DOMAIN");
+const robots = page?.pageMeta?.robots || "index,follow";
+const ogTitle = page?.pageMeta?.ogTitle || metaTitle;
+const ogDescription = page?.pageMeta?.ogDescription || metaDescription;
+const twitterCard = page?.pageMeta?.twitterCard || "summary_large_image";
+
+---
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{metaTitle}</title>
+    {metaKeywords && <meta name="Keywords" content={metaKeywords} />}
+    {metaDescription && <meta name="Description" content={metaDescription} />}
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={ogTitle} />
+    {ogDescription && <meta property="og:description" content={ogDescription} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content={twitterCard} />
+    <meta name="twitter:title" content={ogTitle} />
+    {ogDescription && <meta name="twitter:description" content={ogDescription} />}
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+  </head>

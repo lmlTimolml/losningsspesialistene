@@ -1,0 +1,13 @@
+---
+const { label, href, variant = 'btn-primary', newTab = false } = Astro.props;
+
+---
+
+<a
+  href={href}
+  class={`btn ${variant}`}
+  target={newTab ? '_blank' : '_self'}
+  rel={newTab ? 'noopener noreferrer' : undefined}
+>
+  {label}
+</a>

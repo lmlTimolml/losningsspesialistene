@@ -1,0 +1,75 @@
+---
+import PortableText from './PortableText.astro';
+import ContactInfo from './ui/ContactInfo.astro';
+import MediaBlock from './ui/MediaBlock.astro';
+import MainButton from './ui/MainButton.astro';
+import { getCornerClasses } from '../utils/getCornerClasses';
+import type { ButtonType } from '../types/sanityTypes'
+
+const { blocktype = 'col-2-center', blockID = '', allCorners = false,
+  topLeft = false,
+  topRight = false,
+  bottomLeft = false,
+  bottomRight = false, content =[], padding = 'p-0', textColor = 'text-black', bgColor = 'bg-transparent', border = 'border-none' } = Astro.props;
+const block = content?.[0];
+const buttons = block?.buttons ?? [];
+const corners = { allCorners, topLeft, topRight, bottomLeft, bottomRight };
+const anchor = blockID ? blockID : block._key;
+
+// Merge Tailwind classes dynamically
+/* const customClass = [
+  cleanClass(textColor),
+  `${cleanClass(bgColor)}`,
+  `${cleanClass(border)}`,
+].join(' ');
+const pad = cleanClass(padding)
+const module = cleanClass(blocktype); */
+
+const blockClassMap: Record<string, string> = {
+  'col-2-breakout': 'sm:col-span-full md:col-start-2 md:col-span-6',
+  'col-2-breakout-l': 'sm:col-span-full md:col-start-2 md:col-span-6',
+  'col-2-breakout-r': 'sm:col-span-full md:col-span-6',
+  'col-2-bleed': 'mx-5 md:mx-0 sm:col-span-full md:col-start-2 md:col-span-6 lg:col-start-3 xl:col-start-4',
+  'col-2-bleed-r': 'sm:col-span-full md:col-span-6',
+  'col-2-bleed-l': 'sm:col-span-full md:col-start-2 md:col-span-6 lg:col-start-3 xl:col-start-4',
+  'col-1-bleed-rl': 'md:col-span-4 lg:pl-0 lg:col-start-2 xl:col-start-3',
+  'col-1-bleed-lr': 'sm:col-span-full md:col-span-4',
+  // add more as needed
+};
+
+const wrapperClass = blockClassMap[blocktype] ?? ''; // fallback empty if not found
+
+const mediaClassMap: Record<string, string> = {
+  'col-2-bleed' : 'md:max-h-[480px]',
+  'col-2-bleed-r' : 'md:max-h-[480px]',
+  'col-2-bleed-l' : 'md:max-h-[480px]',
+}
+
+const wrapMediaClass = mediaClassMap[blocktype] ?? '';
+
+
+
+---
+
+<section id={anchor} class={`${blocktype} ${padding} ${textColor} ${bgColor} ${border} ${getCornerClasses(corners)}`}>
+  {block && block._type === 'textBlock' && (
+      <div class={wrapperClass}>
+    { block.title ? <h1>{block.title}</h1> : null }
+    <PortableText portableText={block.text} />
+    {block.contactInfo && <ContactInfo {...block.contactInfo} />}
+    {buttons.length > 0 ? (
+  <div class="flex flex-wrap gap-4 mt-4">
+    {buttons.map((btn: ButtonType) => (
+      <MainButton btn={btn} />
+    ))}
+  </div>
+) : null}
+    </div>
+  )}
+
+{block && block._type === 'mediaBlock' && (
+  <div class={`${wrapMediaClass} col-span-full h-full`}>
+  <MediaBlock {...block} />
+  </div>
+)}
+</section>

@@ -1,0 +1,45 @@
+---
+// src/components/ContactInfo.astro
+import type { ContactInfoProps, SocialLink } from '../../types/sanityTypes';
+import { urlForImage } from '../../sanity/lib/url-for-image';
+
+const { email, phone, address, socials = [] } = Astro.props as ContactInfoProps;
+
+function getSocialHref(social: SocialLink) {
+  if (social.platform === 'phone') {
+    return `tel:00${social.phone}`;
+  }
+  if (social.platform === 'email') {
+    return `mailto:${social.email}`;
+  }
+  return social.url ?? "#";
+}
+
+---
+
+<div>
+  {email && <h2 class="cursor-pointer mb-4 hover:opacity-50 ease-in-out duration-200"><a href={`mailto:${email}`}>{email}</a></h2>}
+  <!-- {phone && <p class="cursor-pointer"><a class="!no-underline" href={`tel:${cleanAnchor(phone)}`}>{phone}</a></p>} -->
+  {phone && <p class="cursor-pointer"><a class="!no-underline" href={`tel:${phone}`}>{phone}</a></p>}
+  {address && <p class="my-4">{address}</p>}
+
+  {Array.isArray(socials) && socials.length > 0 && (
+    <div class="social-icons mt-2 flex gap-3">
+      {socials.map((social) => (
+        <a class="hover:opacity-50 ease-in-out duration-200" href={getSocialHref(social)} target="_blank" rel="noopener noreferrer" title={social.platform}>
+          {social.icon?.asset ? (
+            <img
+              src={urlForImage(social.icon).width(28).height(28).url()}
+              alt={social.platform}
+              width="28"
+              height="28"
+              loading="lazy"
+            />
+          ) : (
+            <span>{social.platform}</span> <!-- Fallback text -->
+          )}
+        </a>
+      ))}
+    </div>
+  )}
+</div>

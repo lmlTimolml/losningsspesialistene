@@ -1,0 +1,26 @@
+---
+import type { FooterType } from '../types/sanityTypes';
+
+import { components } from '../sanity/lib/components';
+
+const footer = Astro.props as FooterType;
+
+const blocks = footer?.blocks ?? [];
+const footerBg = footer?.footerColor;
+
+/* const customClass = [
+  `${cleanClass(footerBg)}`,
+].join(' '); */
+
+---
+
+<footer class={`grid-component-wrapper ${footerBg}`}>
+  {blocks?.map((block, index) => {
+  const Component = components[block._type];
+  if (!Component) {
+    console.warn(`⚠️ No footer component found for block type: ${block._type}`);
+    return null;
+  }
+  return <Component {...block} key={index} />;
+})}
+</footer>

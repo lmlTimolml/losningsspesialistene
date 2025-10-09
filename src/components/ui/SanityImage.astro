@@ -1,0 +1,37 @@
+---
+import { urlForImage } from '../../sanity/lib/url-for-image';
+import type { SanityImageProps } from '../../types/sanityTypes'
+
+const {
+  image,
+  alt = "Sanity image",
+  loading = "lazy",
+  class: className = "",
+  crop = false
+} = Astro.props as SanityImageProps;
+
+const metadata = image?.asset?.metadata;
+const aspectRatio = metadata?.dimensions?.aspectRatio ?? 4 / 3;
+const width = metadata?.dimensions?.width ?? 800;
+const height = width / aspectRatio;
+
+let builder = urlForImage(image)
+  .width(Math.round(width))
+  .auto('format');
+
+if (crop) builder = builder.fit('crop');
+
+const src = builder.url();
+
+---
+
+{src && (
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    class={`${className}`}
+  />
+)}

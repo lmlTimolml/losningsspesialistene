@@ -1,0 +1,14 @@
+---
+// ./src/components/PortableTextImage.astro
+import { urlForImage } from "../sanity/lib/url-for-image";
+
+const { asset, alt } = Astro.props.node;
+
+const url = urlForImage(asset).url();
+const webpUrl = urlForImage(asset).format("webp").url();
+---
+
+<picture>
+  <source srcset={webpUrl} type="image/webp" />
+  <img class="responsive__img max-w-full my-4" src={url} alt={alt} />
+</picture>
