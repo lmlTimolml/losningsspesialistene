@@ -1,0 +1,97 @@
+---
+import type { CarouselBlock } from '../types/sanityTypes';
+import {cleanClass} from '../utils/cleanClass';
+import { getCornerClasses } from '../utils/getCornerClasses';
+import CarouselItem from './CarouselItem.astro';
+
+const {
+  carouselHeading,
+  carouselSpeed,
+  allCorners = false,
+  topLeft = false,
+  topRight = false,
+  bottomLeft = false,
+  bottomRight = false, 
+  slides = [],
+  textColor = 'text-black',
+  bgColor = 'bg-transparent',
+  border = 'border-primary',
+  activeDotColor = 'bg-primary',
+  borderDotColor = 'border-primary'
+
+} = Astro.props as CarouselBlock;
+
+const corners = { allCorners, topLeft, topRight, bottomLeft, bottomRight };
+
+// Merge Tailwind classes dynamically
+const customClass = [
+  cleanClass(textColor),
+  `${cleanClass(bgColor)}`,
+  `${cleanClass(border)}`
+].join(' ');
+
+---
+
+<section class={`grid-column-full embla ${customClass} ${getCornerClasses(corners)}`} data-speed={carouselSpeed}>
+      <div class="carousel-flex embla__viewport">
+        <div class="embla__container">
+          {slides.length > 0 ? slides.map((slide) => {
+            return (
+        <div class="embla__slide">
+        <div class="embla__slide_number">
+      <CarouselItem
+      {...slide}
+      />
+  </div>
+  </div>
+    );
+  }) : null}
+        </div>
+      </div>
+
+      <div class="carousel-flex embla__controls">
+        <div class="embla__dots" data-color={cleanClass(activeDotColor)} data-border={cleanClass(borderDotColor)}></div>
+      </div>
+    </section>
+
+
+    <script>
+import EmblaCarousel from 'embla-carousel'
+import type {
+  EmblaOptionsType,
+  EmblaCarouselType
+} from 'embla-carousel'
+import { addDotBtnsAndClickHandlers } from './ui/EmblaCarouselDotButton'
+import Autoplay from 'embla-carousel-autoplay'
+
+const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true }
+
+const emblaNode = document.querySelector('.embla') as HTMLElement;
+const viewportNode = emblaNode.querySelector('.embla__viewport') as HTMLElement;
+const dotsNode = emblaNode.querySelector('.embla__dots') as HTMLElement
+const carouselSpeed = Number(emblaNode.dataset.speed) || 5000
+
+const autoplayOptions = { delay: carouselSpeed, stopOnInteraction: false }
+const emblaApi = EmblaCarousel(viewportNode, OPTIONS, [Autoplay(autoplayOptions)])
+
+const onNavButtonClick = (emblaApi: EmblaCarouselType): void => {
+  const autoplay = emblaApi?.plugins()?.autoplay
+  if (!autoplay) return
+
+  const resetOrStop =
+    autoplay.options.stopOnInteraction === false
+      ? autoplay.reset
+      : autoplay.stop
+
+  resetOrStop()
+}
+
+const removeDotBtnsAndClickHandlers = addDotBtnsAndClickHandlers(
+  emblaApi,
+  dotsNode,
+  onNavButtonClick
+)
+
+emblaApi.on('destroy', removeDotBtnsAndClickHandlers)
+
+    </script>

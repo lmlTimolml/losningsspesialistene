@@ -1,0 +1,18 @@
+---
+/* import CaseCard from './CaseCard.astro'; */
+import type { CarouselItem } from '../types/sanityTypes';
+import { PortableText } from 'astro-portabletext';
+import SanityImage from './ui/SanityImage.astro';
+/* import {deepClean} from '../utils/deepClean'; */
+
+const slide = Astro.props as CarouselItem;
+
+---
+
+<!-- {slide._type === 'case' ? <CaseCard {...slide} /> : null} -->
+{slide._type === 'textBlock' ? <PortableText value={slide?.text} /> : null }
+{slide._type === 'mediaBlock' ? <SanityImage
+    image={slide?.image}
+    alt={slide?.alt}
+    class={`object-cover group-hover:grayscale-50 aspect-auto max-w-full h-full`}
+  /> : null}

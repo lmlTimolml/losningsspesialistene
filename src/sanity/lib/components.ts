@@ -5,9 +5,10 @@ import Accordion from '../../components/Accordion.astro';
 import TwoColTxtImg from '../../components/TwoColTxtImg.astro';
 import Services from '../../components/Services.astro'; */
 import Footer from '../../components/Footer.astro';
+import Carousel from '../../components/Carousel.astro';
 /* import Clients from '../../components/Clients.astro';
 import Highlights from '../../components/Highlights.astro';
-import Carousel from '../../components/Carousel.astro'; */
+*/
 
 export const components = {
   mainBlock: MainBlock,
@@ -17,7 +18,8 @@ export const components = {
   accordion: Accordion,
   services: Services, */
   footer: Footer,
+  carousel: Carousel,
   /* clientsBlock: Clients,
   highLightsBlock: Highlights,
-  carousel: Carousel, */
+  */
 };

@@ -12,6 +12,7 @@ import { blockContentType } from './sharedTypes/blockContent';
 import { button } from './ui/button';
 import { mediaBlock } from './sharedTypes/mediaBlock';
 import { socialLink } from './ui/socialLink';
+import { carousel } from './blocks/carousel';
 /* import { categoryType } from './ui/category';
 import { twoColTxtImg } from './blocks/twoColTxtImg';
 import { accordion } from './blocks/accordion';
@@ -27,7 +28,7 @@ import { client } from './ui/client';
 import { clientsBlock } from './blocks/clientsBlock';
 import { highLight } from './ui/highlight';
 import { highLightsBlock } from './blocks/highlightsBlock';
-import { carousel } from './blocks/carousel'; */
+*/
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -43,10 +44,10 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     contactInfo,
     mediaBlock,
     socialLink,
+    carousel,
     /* casePage,
     caseCard,
     casesBlock,
-    carousel,
     client,
     clientsBlock,
     highLight,

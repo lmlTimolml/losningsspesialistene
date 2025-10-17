@@ -22,6 +22,18 @@ export type Corners = {
 
 /* COMPONENTS / BLOCKS */
 
+export interface ModulePreviewInput {
+  content?: Array<TextBlock | MediaBlock>;
+  blockID: string;
+  pageColor?: string;
+  padding?: string;
+  textColor?: string;
+  bgColor?: string;
+  border?: string;
+  activeDotColor?: string;
+  borderDotColor?: string;
+}
+
 export interface TextBlock {
   _type: 'textBlock';
   title?: string;
@@ -53,6 +65,16 @@ export interface MediaBlock {
 
 export interface BaseBlock {
   content: [TextBlock] | [MediaBlock];
+}
+
+export type CarouselItem = TextBlock | MediaBlock;
+
+export interface CarouselBlock extends ModulePreviewInput, Corners {
+  _type: 'carousel';
+  carouselHeading: string;
+  carouselSpeed: number;
+  corners: Corners;
+  slides: CarouselItem[];
 }
 
 export interface BlockStylesType {
@@ -101,7 +123,7 @@ export interface MainBlock extends BaseBlock {
   _type: 'mainBlock';
 }
 
-export type PageBlocks = MainBlock;
+export type PageBlocks = MainBlock | CarouselBlock;
 /*   | TwoColTxtImg
   | Accordion
   | Services
