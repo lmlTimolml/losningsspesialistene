@@ -42,6 +42,6 @@ export default defineConfig({
   ],
 
   adapter: node({
-    mode: 'middleware',
+    mode: 'standalone',
   }),
 });
